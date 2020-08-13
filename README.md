@@ -4,10 +4,10 @@ Unfortunately I think I lost some to time.
 Files will typically follow the format:
 
 Charlie Miller
-<Leetcode|Hackerrank|website> - <challenge name>
-<challenge hyperlink>
+[Leetcode|Hackerrank|website] - [challenge name]
+[challenge hyperlink]
 
-<my solution>
+[my solution]
 
 Contact charliedmiller+git@gmail.com for any questions :)
 
