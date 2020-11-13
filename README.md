@@ -1,13 +1,24 @@
-This is a simple repo of past coding challenges I've completed. I've started recording my answers since 8/12/2020.
-Unfortunately I think I lost some to time.
+# About this Repo
 
-Files will typically follow the format:
+This is a recording of past coding challenges I've completed in [Leetcode](https://leetcode.com/cglitcher/) and [Hackerrank](https://www.hackerrank.com/cglitcher).
 
-Charlie Miller
-[Leetcode|Hackerrank|website] - [challenge name]
-[challenge hyperlink]
+Files should typically follow the format:
 
-[my solution]
+    # Charlie Miller
+    # [Origin Website] - [Challenge Name]
+    # [Challenge Hyperlink]
+    # [Date Written]
+     
+    [My Solution]
 
+
+## Caveats
+
+ - Not all dates have been recorded (currently being fixed)
+ - Files were written within the provided editor/environment
+		 - these environments automatically imported several libraries
+		 - They also provided pre-defined data structures and inputs
+		 - to run successfully, run it in the challenge page (follow hyperlink)
+
+ 
 Contact charliedmiller+git@gmail.com for any questions :)
-
