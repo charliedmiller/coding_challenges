@@ -55,19 +55,14 @@ class AVLTestCase(unittest.TestCase):
             elif state == "delete":
                 for j,value in enumerate(sequence):
                     avl.delete(value)
-                    print("\n")
-                    print(avl)
                     self.verify_and_catch(avl,insert_deletes,i,j)
                 state = "insert"
             else:
                 print("invalid testing state!!")
                 state = "insert"
-        # print("\n")
-        # print(insert_deletes)
-            # print(avl)   
 
-    # def test_nominal(self):
-    #     self.run_test([1,5,3])
+    def test_nominal(self):
+        self.run_test([1,5,3])
 
     def test_insert_remove_full(self):
         self.run_test([1,5,3],[1,5,3])

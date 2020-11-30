@@ -120,86 +120,22 @@ class AVLTree:
         self.root = self._delete(self.root,value)
 
     def insert(self,value):
-        new_node = Node(value)
-        if not self.root:
-            self.root = new_node
-            return
+        self.root = self._insert(self.root,value)
 
-        if self.find(self.root,value) is not None:
-            return
+    def _insert(self,root,value):
+        if root is None:
+            return Node(value)
 
-        cur_node = self.root
-        parent1,parent2,parent3,parent4 = None,None,None,None
-
-        while cur_node:
-            parent4 = parent3
-            parent3 = parent2
-            parent2 = parent1
-            parent1 = cur_node
-
-            if cur_node.val < value:
-                cur_node = cur_node.right
-            elif cur_node.val > value:
-                cur_node = cur_node.left
-            else:
-                raise RuntimeError("Value found in tree despite find claiming it not there")
-
-        if parent1.val < value:
-            parent1.right = new_node
+        if root.val < value:
+            root.right = self._insert(root.right,value)
+        elif root.val > value:
+            root.left = self._insert(root.left,value)
         else:
-            parent1.left = new_node
+            return Node(value)
 
+        root = self.balance(root)
 
-        if parent2 and self.current_balance(parent2) > 1:
-            self.rebalance(parent2,parent3,value)
-        elif parent3 and self.current_balance(parent3) > 1:
-            self.rebalance(parent3,parent4,value)
-
-
-
-    def rebalance(self,root,parent,value):
-        path = ""
-        cur_node = root
-
-        while cur_node.val != value:
-            if cur_node.val < value:
-                path += "r"
-                cur_node = cur_node.right
-
-            elif cur_node.val > value:
-                path += "l"
-                cur_node = cur_node.left
-            
-            else:
-                raise RuntimeError("Improper implementation")
-
-        path = path[:2]
-
-        first_child = root.right if root.val < value else root.left
-
-        if path == "l":
-            self.rotate(root,"right",parent)
-        elif path == "r":
-            self.rotate(root,"left",parent)
-        elif path == "ll":
-            self.rotate(root,"right",parent)
-        elif path == "rr":
-            self.rotate(root,"left",parent)
-        elif path == "rl":
-            self.rotate(first_child,"right",root)
-            self.rotate(root,"left",parent)
-        elif path == "lr":
-            self.rotate(first_child,"left",root)
-            self.rotate(root,"right",parent)
-        else:
-            raise RuntimeError("Improper Implementation")
-
-        
-    def current_balance(self,node):
-        left = self.height(node.left)
-        right = self.height(node.right)
-
-        return abs(left-right)
+        return root
 
 
     def find(self,root,value):
