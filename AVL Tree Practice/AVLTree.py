@@ -23,6 +23,8 @@ class AVLTree:
         self.printer = printer
 
     def __str__(self):
+        #this class won't be implementing its own __str__ method. can be applied
+        #to many kinds of trees
         return self.printer.get_str(self)
 
 
@@ -57,6 +59,31 @@ class AVLTree:
                 parent.left = new_root
 
         return new_root 
+
+    def balance(self,root):
+        if not root:
+            return root
+
+        bias = self.get_bias(root)
+        if abs(bias) <= 1:
+            return root
+
+        if bias > 0:
+            child_bias = self.get_bias(root.left)
+            if child_bias < 0:
+                root.left = self.rotate(root.left,"left",None)
+            root = self.rotate(root,"right",None)
+        elif bias < 0:
+            child_bias = self.get_bias(root.right)
+            if child_bias > 0:
+                root.right = self.rotate(root.right,"right",None)
+            root = self.rotate(root,"left",None)
+
+        return root
+
+    def delete(self,value):
+        self.root = self._delete(self.root,value)
+
 
     def _delete(self,root,value):
         if root is None:
@@ -94,31 +121,7 @@ class AVLTree:
 
         bias = left - right
         return bias
-
-    def balance(self,root):
-        if not root:
-            return root
-
-        bias = self.get_bias(root)
-        if abs(bias) <= 1:
-            return root
-
-        if bias > 0:
-            child_bias = self.get_bias(root.left)
-            if child_bias < 0:
-                root.left = self.rotate(root.left,"left",None)
-            root = self.rotate(root,"right",None)
-        elif bias < 0:
-            child_bias = self.get_bias(root.right)
-            if child_bias > 0:
-                root.right = self.rotate(root.right,"right",None)
-            root = self.rotate(root,"left",None)
-
-        return root
             
-    def delete(self,value):
-        self.root = self._delete(self.root,value)
-
     def insert(self,value):
         self.root = self._insert(self.root,value)
 
