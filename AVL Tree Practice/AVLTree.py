@@ -36,7 +36,7 @@ class AVLTree:
             raise RuntimeError("No root to rotate")
 
         if not [root.right,root.left][di]:
-            raise TreeExeception("No right child for left rotation",root)
+            raise TreeExeception("No child for rotation",root)
 
         new_root = [root.right,root.left][di]
         detached_child = [new_root.left,new_root.right][di]
@@ -69,10 +69,10 @@ class AVLTree:
         else:
             if root.left is None and root.right is None:
                 return None
-            elif root.left is not None:
-                return root.left
-            elif root.right is not None:
-                return root.right
+            elif root.left is not None and root.right is None:
+                root = root.left
+            elif root.right is not None and root.left is None:
+                root = root.right
             else:
                 #replace with successor, then delete successor
                 cur_node = root.right
@@ -81,7 +81,6 @@ class AVLTree:
 
                 root.val = cur_node.val
                 root.right = self._delete(root.right,cur_node.val)
-                return root
 
         root = self.balance(root)
         return root
@@ -89,7 +88,7 @@ class AVLTree:
     def get_bias(self,root):
         if not root:
             return 0
-            
+
         left = self.height(root.left)
         right = self.height(root.right)
 
@@ -97,9 +96,12 @@ class AVLTree:
         return bias
 
     def balance(self,root):
+        if not root:
+            return root
+
         bias = self.get_bias(root)
         if abs(bias) <= 1:
-            return
+            return root
 
         if bias > 0:
             child_bias = self.get_bias(root.left)

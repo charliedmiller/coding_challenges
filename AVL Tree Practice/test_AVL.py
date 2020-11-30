@@ -31,12 +31,13 @@ class AVLTestCase(unittest.TestCase):
         self.assertTrue(is_bst,"Not A Binary Search Tree")
         self.assertTrue(is_balanced,"Not balanced")
 
-    def verify_and_catch(self,tree,sequence,big_i,small_j):
+    def verify_and_catch(self,tree,insert_delete,big_i,small_j):
+        insert_delete = list(insert_delete)
         try:
             self.verify_tree(tree)
         except AssertionError as e:
-            cur_arr = sequence[:big_i]
-            cur_arr.append(sequence[big_i][:small_j+1])
+            cur_arr = insert_delete[:big_i]
+            cur_arr.append(insert_delete[big_i][:small_j+1])
             print(tree,file=sys.stderr)
             print(cur_arr,file=sys.stderr)
             raise e
@@ -49,20 +50,24 @@ class AVLTestCase(unittest.TestCase):
             if state == "insert":
                 for j,value in enumerate(sequence):
                     avl.insert(value)
-                    self.verify_and_catch(avl,sequence,i,j)
+                    self.verify_and_catch(avl,insert_deletes,i,j)
                 state = "delete"
             elif state == "delete":
                 for j,value in enumerate(sequence):
                     avl.delete(value)
-                    self.verify_and_catch(avl,sequence,i,j)
+                    print("\n")
+                    print(avl)
+                    self.verify_and_catch(avl,insert_deletes,i,j)
                 state = "insert"
             else:
                 print("invalid testing state!!")
                 state = "insert"
+        # print("\n")
+        # print(insert_deletes)
+            # print(avl)   
 
-
-    def test_nominal(self):
-        self.run_test([1,5,3])
+    # def test_nominal(self):
+    #     self.run_test([1,5,3])
 
     def test_insert_remove_full(self):
         self.run_test([1,5,3],[1,5,3])
@@ -79,6 +84,13 @@ class AVLTestCase(unittest.TestCase):
     def test_weaving_left(self):
         self.run_test([9,1,8,2,7,3,6,4,5])
 
+    def test_wing_pattern(self):
+        self.run_test([5,4,6,3,7,2,8,1,9])
+
+    def test_delete_roots(self):
+        self.run_test([5,4,6,3,7,2,8,1,9],
+                      [5,6,7,3,4,8,2,9,1],
+                      [8,3,2,6,0,-9,-8])
 
 
 if __name__ == "__main__":
