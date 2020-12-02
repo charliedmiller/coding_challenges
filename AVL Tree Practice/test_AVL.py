@@ -32,6 +32,10 @@ class AVLTestCase(unittest.TestCase):
         self.assertTrue(is_balanced,"Not balanced")
 
     def verify_and_catch(self,tree,insert_delete,big_i,small_j):
+        """
+        Perform the test. If it fails, catch, print out tree structure,
+        then reraise. Show what number the test failed on
+        """
         insert_delete = list(insert_delete)
         try:
             self.verify_tree(tree)
@@ -43,8 +47,17 @@ class AVLTestCase(unittest.TestCase):
             raise e
 
     def run_test(self,*insert_deletes):
+        """
+        Run a series of insertions and deletes. After
+        each operation, check if the tree follows AVL tree
+        properties (is a Binary Search Tree, and height for
+        each of the children differ no more than 1)
+        """
+        #instantiate a printer for debugging
         tp = TreePrinter()
         avl = AVLTree(tp)
+
+        #switch between inserting and deletion state
         state = "insert"
         for i,sequence in enumerate(insert_deletes):
             if state == "insert":
@@ -60,6 +73,7 @@ class AVLTestCase(unittest.TestCase):
             else:
                 print("invalid testing state!!")
                 state = "insert"
+
 
     def test_nominal(self):
         self.run_test([1,5,3])
@@ -87,11 +101,24 @@ class AVLTestCase(unittest.TestCase):
                       [5,6,7,3,4,8,2,9,1],
                       [8,3,2,6,0,-9,-8])
 
+    def test_delete_non_roots(self):
+        self.run_test([1,2,3,4,5,6,7,8,9,0],[6,7,8,2,1])
+
+    def test_delete_one_child_roots(self):
+        self.run_test([1,2,3,4,5,6,7,8,9,0],[1,0,2,7,8])
+
+    def test_delete_leaves(self):
+        self.run_test([1,2,3,4,5,6,7,8,9,0],[0,7,9,1,8,3,5,6,2,4])
+
+    def test_build_up_and_down(self):
+        self.run_test([1,2,3,4,5,6,7,8,9,0],[1,2,3,4,5,6,7,8,9,0],[1,2,3,4,5,6,7,8,9,0],[1,2,3,4,5,6,7,8,9,0])
+
+    def test_delete_same_multiple(self):
+        self.run_test([1,2,3,4,5,6,7,8,9,0],[1,1,1,1,1,1,2,2,2,2,2,2,5,5,5,5,5])
+
+    def test_insert_same_multiple(self):
+        self.run_test([1,2,3,4,5,6,7,8,9,0,1,1,1,1,1,0,0,0,0,0,0,6,6,6,6,6,6])
+
 
 if __name__ == "__main__":
     unittest.main()
-    # do_test([1,4,7,5,2])
-    # do_test([9,8,7,6,5,4,3,2,1])
-    # do_test([1,904565,44])
-    # do_test([1])
-    # do_test([1,4])
