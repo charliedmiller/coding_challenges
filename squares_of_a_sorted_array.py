@@ -4,7 +4,7 @@
 # Written 2020-12-15
 
 """
-To get log(n) time, we need to get the original array sorted by absolute
+To get O(n) time, we need to get the original array sorted by absolute
 value in n time. We can do this by partitioning the array by its positives
 and negatives. Then do a merge routine to sort by absolute value. No need
 to sort the partitions bc they are already sorted. Finally, square each value
